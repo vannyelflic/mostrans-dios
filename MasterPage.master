@@ -1,0 +1,281 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>PT. Enseval Putera Megatrading Tbk.</title>
+    <link rel="icon" href="images/epm.png">
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+
+<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="css/fixedColumns.dataTables.min.css" />
+
+
+ <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" /> 
+
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css" />
+
+<script src="js/dataTables.fixedColumns.min.js" ></script>
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/responsive.bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/dataTables.altEditor.free.js"></script>
+    <script type="text/javascript" src="js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="js/dataTables.select.min.js"></script>
+
+
+    
+
+    <style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: darkgray;
+}
+
+li {
+    float: left;
+    border-right:solid white 1px;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: cadetblue;
+    border-right:solid white 1px;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgb(28,166,191);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.active {
+    background-color: #4CAF50;
+}
+
+.content{
+    background: #FFD700;
+}
+
+    </style>
+
+<style>
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=button] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=button]:hover {
+    background-color: #45a049;
+}
+
+
+
+button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button {
+    background-color: #45a049;
+}
+
+
+    </style>
+
+<script>
+
+    function changeimage() {
+        var str = document.getElementById("imgsound").src ;
+        var n = str.includes("images/sound.png");
+        var yo;
+        if (n)
+        {
+            document.getElementById("imgsound").src = "images/soundoff.png";
+            yo = "N";
+        }
+        else 
+        {
+            document.getElementById("imgsound").src = "images/sound.png";
+            yo = "Y";
+        }
+        Test(yo);
+    }
+
+        function Test(yo) {
+        $.ajax({
+            type: "POST",
+            url: "main.aspx/Getdata",
+            data: '{ix: "' + document.getElementById('MyIXText').value + '", flg: "' + yo + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess99,
+            failure: function (response) {
+                alert(response.d);
+            }
+        });
+    }
+
+    function OnSuccess99(response) {
+            };
+
+</script>
+
+
+</head>
+<body>
+    <form id="form1" runat="server">
+
+
+        <img src="images/Mostrans2.png" style="width:120px ; height:85px" />
+
+  <ul>
+      <!--<li><a href="a.aspx">Inbound Monitoring</a></li> -->
+      <li class="dropdown">
+          <a id="Menu0100" runat="server" href="javascript:void(0)" class="dropbtn">Layar Monitoring</a>
+         <div class="dropdown-content">
+          <a id="Menu0101" runat="server" href="lcdinbound.aspx?ix=<%=myix%>">Inbound</a>
+          <a id="Menu0102" runat="server" href="lcdoutbound.aspx?ix=<%=myix%>">Outbound</a>
+          <a id="Menu0103" runat="server" href="prosesdata.aspx?ix=<%=myix%>" style="display:none">Outbound (Proses Data)</a>
+        </div>
+      </li>
+      <li class="dropdown">
+          <a id="Menu0200" runat="server" href="javascript:void(0)" class="dropbtn">Perencanaan</a>
+         <div class="dropdown-content">
+          <a  id="Menu0201" runat="server" href="outboundplan.aspx?ix=<%=myix%>">Outbound</a>
+          <a  id="Menu0210" runat="server" href="mstexpedisi.aspx?ix=<%=myix%>">Master Ekspedisi</a>
+        </div>
+      </li>
+      <li class="dropdown">
+          <a  id="Menu0300" runat="server" href="javascript:void(0)" class="dropbtn">Kedatangan Kendaraan</a>
+         <div class="dropdown-content">
+          <a id="Menu0301" runat="server" href="arrivali.aspx?ix=<%=myix%>">Inbound</a>
+          <a id="Menu0302" runat="server" href="arrivalo.aspx?ix=<%=myix%>">Outbound</a>
+        </div>
+      </li>
+      <li class="dropdown">
+          <a id="Menu0400" runat="server" href="javascript:void(0)" class="dropbtn">Proses-Inbound</a>
+          <div class="dropdown-content">      
+             <a id="Menu0401" runat="server" href="doci.aspx?ix=<%=myix%>">Dokumen Check</a>
+             <a id="Menu0402" runat="server" href="tuni.aspx?ix=<%=myix%>">Batalkan Penundaan</a>
+             <a id="Menu0403" runat="server" href="suni.aspx?ix=<%=myix%>">Start Unloading</a>
+             <a id="Menu0404" runat="server" href="funi.aspx?ix=<%=myix%>">Finish Unloading</a>              
+          </div>
+      </li>
+      <li class="dropdown">
+          <a id="Menu0500" runat="server" href="javascript:void(0)" class="dropbtn">Proses-Outbound</a>
+          <div class="dropdown-content">      
+             <a id="Menu0501" runat="server" href="docko.aspx?ix=<%=myix%>">Call / Panggil</a>
+          </div>
+      </li>
+      <li><a id="Menu9500" runat="server" href="callq.aspx">Layanan Panggilan</a></li>
+      <li class="dropdown">
+          <a id="Menu0600" runat="server" href="javascript:void(0)" class="dropbtn">Dashboard</a>
+          <div class="dropdown-content">      
+             <a id="Menu0601" runat="server" href="OutDashboard.aspx?ix=<%=myix%>">Outbound</a>
+          </div>
+      </li>
+      <li style="float:right"><a id="Menu9000" runat="server" href="Default.aspx">Keluar</a></li>
+      
+   </ul>
+
+        <div style="position:absolute;right:30px;top:10px;font-family:arial;color:rgb(20, 18, 18)">
+            <table>
+                <tr>
+                    <td>
+                        <div style="font-size:14px">
+                        Regional Distribution Center<br />
+                        <b>PT. Enseval Putera Megatrading Tbk.</b><br /></div><div style="font-size:12px">
+                        Rawagelam, Kawasan Industri Pulogadung, Jakarta Timur<br />
+                            
+                            <a href="#"><img src="images/if_social_media-38_3456228.png" style="width:20px;height:20px"" /></a>
+                            <a href="#"><img src="images/if_social_media-09_3456209.png" style="width:20px;height:20px"" /></a>
+                            <a href="#"><img src="images/if_social_media-17_3456201.png" style="width:20px;height:20px"" /></a>
+                            <a href="#"><img src="images/if_social_media-44_3456223.png" style="width:20px;height:20px"" /></a>
+                            <a href="mailto:bbayuaji@enseval.com"><img src="images/if_social_media-08_3456210.png" style="width:20px;height:20px"" /></a>
+                            </div>
+                    </td>
+                 </tr>
+            </table>
+        </div>
+
+        <div style="position:absolute;bottom:5px;right:5px;font-size:14px">
+            <img src="images/sound.png" id="imgsound" runat="server" style="height:25px;width:25px" onclick="changeimage()"/>
+            &nbsp;&nbsp;
+            <label id="infologin" runat="server"></label>
+        </div>
+
+        <div style="display:none ">
+            <asp:TextBox runat="server" ID="MyIXText"></asp:TextBox>
+        </div>
+
+    <div>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>

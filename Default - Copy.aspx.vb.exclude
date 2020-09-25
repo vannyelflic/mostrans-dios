@@ -1,0 +1,46 @@
+﻿
+Partial Class _Default
+    Inherits System.Web.UI.Page
+
+
+    Dim MySql As New mysql
+    Dim MyChef As New MyChef
+    Dim mydata As New Data.DataSet
+
+
+    Private Sub cmdLetMeIn_Click(sender As Object, e As EventArgs) Handles cmdLetMeIn.Click
+
+        Dim CompID As String = Convert.ToString(Guid.NewGuid())
+
+        Dim uniq As HttpCookie = New HttpCookie("webSiteUnique")
+        uniq.Value = CompID
+        Response.Cookies.Add(uniq)
+
+        'Dim MySound As HttpCookie = New HttpCookie("webSound") With {
+        '    .Value = "Y"
+        '}
+
+
+        If txtPass.Text <> "" And txtUserName.Text <> "" Then
+            Dim myusername As String = mysql.bersih(txtUserName.Text)
+            Dim mypass As String = MySql.bersih(txtPass.Text)
+            mydata = MyChef.WLogin(myusername, mypass)
+            If mydata.Tables(0).Rows.Count > 0 Then
+                Session("gUserName") = myusername
+                Session("gEncrUserName") = MySql.EEncryp(myusername)
+                Session("gKodeDC") = mydata.Tables(0).Rows(0).Item("RDC")
+                lblerror.Text = "Login berhasil"
+
+                Dim RndStr As String = MySql.ERndSTr
+                MyChef.iplanp(MySql.EEncryp(RndStr), MySql.EEncryp(CompID), MySql.EEncryp(Session("gEncrUserName")))
+
+                Response.Redirect("main.aspx?ix=" & RndStr)
+            Else
+                lblerror.Text = "Login gagal"
+            End If
+        Else
+            lblerror.Text = "Login gagal"
+        End If
+
+    End Sub
+End Class
